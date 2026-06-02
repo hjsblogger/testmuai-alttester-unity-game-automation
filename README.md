@@ -154,6 +154,21 @@ Run a single test by name:
 pytest tests/test_main_menu.py::TestMainMenu::test_main_menu_page_loaded_correctly -v
 ```
 
+Both the AltTester Desktop and TestMu AI tunnel should be running throughout the course of the execution. This is because the tunnel transparently forwards the WebSocket connection to port 13000 on the cloud device.
+
+<img width="1504" height="746" alt="LambdaTest-AltTester-Connection" src="https://github.com/user-attachments/assets/a099559f-c6c7-4881-8a2c-6b95e923c550" />
+
+Shown below is the execution snapshot that showcases the progress of the test execution:
+
+<img width="1475" height="474" alt="AltTester-Automation-Terminal" src="https://github.com/user-attachments/assets/305d59ea-962a-4781-aa8f-ebf1df82ea91" />
+
+Navigate to [TestMu AI automation dashboard](https://automation.lambdatest.com/build?pageType=build) to check the status of the test execution.
+
+<img width="1503" height="835" alt="LT_Dashboard_1 0" src="https://github.com/user-attachments/assets/21479512-e8e2-47e7-ae3f-ba4049f0219b" />
+<br/>
+<br/>
+<img width="1503" height="821" alt="LT_Dashboard_1" src="https://github.com/user-attachments/assets/eba84bb1-7278-4f21-b614-8ae71715b4db" />
+
 ## Test Coverage
 
 ### `test_start_page.py`
@@ -206,7 +221,9 @@ pytest tests/test_main_menu.py::TestMainMenu::test_main_menu_page_loaded_correct
 **Wrong AltTester server version** — `test_get_server_version` asserts version `2.2.5`. If your APK was instrumented with a different version, update that assertion or re-instrument the app.
 
 ## Have feedback or need assistance?
-Feel free to fork the repo and contribute to make it better! Email to [himanshu[dot]sheth[at]gmail[dot]com](mailto:himanshu.sheth@gmail.com) for any queries or ping me on the following social media sites:
+Feel free to fork the repo and contribute to make it better! Thanks to the awesome AltTester team for the great support that they provided throughout the course of the integration!
+
+Email to [himanshu[dot]sheth[at]gmail[dot]com](mailto:himanshu.sheth@gmail.com) for any queries or ping me on the following social media sites:
 
 <b>LinkedIn</b>: [@hjsblogger](https://linkedin.com/in/hjsblogger)<br/>
 <b>Twitter</b>: [@hjsblogger](https://www.twitter.com/hjsblogger)
