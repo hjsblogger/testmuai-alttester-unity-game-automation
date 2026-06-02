@@ -66,29 +66,14 @@ LT_APP_URL=lt://your_app_url
 | `LT_ACCESS_KEY` | TestMu AI dashboard → Profile |
 | `LT_APP_URL` | App Automation → uploaded app's `lt://` URL |
 
-## Running Tests
+## Dependencies
 
-Run the full test suite:
-
-```bash
-pytest
-```
-
-Run a specific test file:
-
-```bash
-pytest tests/test_start_page.py -v
-pytest tests/test_main_menu.py -v
-pytest tests/test_game_play.py -v
-pytest tests/test_store.py -v
-pytest tests/test_user_journey.py -v
-```
-
-Run a single test by name:
-
-```bash
-pytest tests/test_main_menu.py::TestMainMenu::test_main_menu_page_loaded_correctly -v
-```
+| Package | Version | Purpose |
+|---|---|---|
+| `alttester-driver` | ≥ 2.2.5 | AltTester Python SDK |
+| `Appium-Python-Client` | ≥ 4.0.0 | Appium session management |
+| `pytest` | ≥ 8.0.0 | Test runner |
+| `python-dotenv` | ≥ 1.0.0 | Load `.env` credentials |
 
 ## Project Structure
 
@@ -115,6 +100,58 @@ pytest tests/test_main_menu.py::TestMainMenu::test_main_menu_page_loaded_correct
 ├── requirements.txt
 ├── pytest.ini
 └── .env                            # Your credentials (gitignored — create this yourself)
+```
+
+## How It Works
+
+<p align="center">
+  <img width="625" height="345" alt="AltTester-Working" src="https://github.com/user-attachments/assets/100e2565-4bd3-4dd0-b00e-01cf31a75294" />
+</p>
+
+1. **Session start** — `conftest.py` launches the `LT` tunnel binary and waits for it to be ready by polling its local info API.
+2. **Appium session** — An Appium `Remote` driver connects to `mobile-hub.lambdatest.com`. This installs and launches the TrashCat app on a real device.
+3. **AltDriver** — After the app starts (~30 s), `AltDriver()` connects to the AltTester Server embedded in the app via the tunnel. This gives full access to the Unity scene graph.
+4. **Step annotations** — Each page object calls `lambdatest_executor` via `execute_script` to push step-context messages to the TestMu AI dashboard, so you can see exactly what each test was doing when it failed.
+5. **Teardown** — The Appium session reports `lambda-status=passed`, then quits. The AltDriver is stopped. At end-of-session the tunnel process is killed.
+
+## Device Configuration
+
+Tests run on **Pixel 8 (Android 14)** by default. To change the device, edit the `lt_options` dict in `tests/conftest.py`:
+
+```python
+# Android
+"deviceName": "Pixel.*",
+"platformVersion": "14",
+"platformName": "android",
+
+# iOS — uncomment and adjust
+# "deviceName": "iPhone 14",
+# "platformVersion": "16",
+# "platformName": "ios",
+```
+
+## Test Execution
+
+Run the full test suite:
+
+```bash
+pytest
+```
+
+Run a specific test file:
+
+```bash
+pytest tests/test_start_page.py -v
+pytest tests/test_main_menu.py -v
+pytest tests/test_game_play.py -v
+pytest tests/test_store.py -v
+pytest tests/test_user_journey.py -v
+```
+
+Run a single test by name:
+
+```bash
+pytest tests/test_main_menu.py::TestMainMenu::test_main_menu_page_loaded_correctly -v
 ```
 
 ## Test Coverage
@@ -157,43 +194,6 @@ pytest tests/test_main_menu.py::TestMainMenu::test_main_menu_page_loaded_correct
 | `test_the_number_of_all_enabled_elements_from_different_pages_is_different` | Counts enabled Unity objects across scenes |
 | `test_the_number_of_all_disabled_elements_from_different_pages_is_different` | Counts disabled Unity objects across scenes |
 | `test_methods_that_handle_scenes` | Exercises `load_scene`, `unload_scene`, `get_current_scene` |
-
-## How It Works
-
-<p align="center">
-  <img width="625" height="345" alt="AltTester-Working" src="https://github.com/user-attachments/assets/100e2565-4bd3-4dd0-b00e-01cf31a75294" />
-</p>
-
-1. **Session start** — `conftest.py` launches the `LT` tunnel binary and waits for it to be ready by polling its local info API.
-2. **Appium session** — An Appium `Remote` driver connects to `mobile-hub.lambdatest.com`. This installs and launches the TrashCat app on a real device.
-3. **AltDriver** — After the app starts (~30 s), `AltDriver()` connects to the AltTester Server embedded in the app via the tunnel. This gives full access to the Unity scene graph.
-4. **Step annotations** — Each page object calls `lambdatest_executor` via `execute_script` to push step-context messages to the TestMu AI dashboard, so you can see exactly what each test was doing when it failed.
-5. **Teardown** — The Appium session reports `lambda-status=passed`, then quits. The AltDriver is stopped. At end-of-session the tunnel process is killed.
-
-## Device Configuration
-
-Tests run on **Pixel 8 (Android 14)** by default. To change the device, edit the `lt_options` dict in `tests/conftest.py`:
-
-```python
-# Android
-"deviceName": "Pixel.*",
-"platformVersion": "14",
-"platformName": "android",
-
-# iOS — uncomment and adjust
-# "deviceName": "iPhone 14",
-# "platformVersion": "16",
-# "platformName": "ios",
-```
-
-## Dependencies
-
-| Package | Version | Purpose |
-|---|---|---|
-| `alttester-driver` | ≥ 2.2.5 | AltTester Python SDK |
-| `Appium-Python-Client` | ≥ 4.0.0 | Appium session management |
-| `pytest` | ≥ 8.0.0 | Test runner |
-| `python-dotenv` | ≥ 1.0.0 | Load `.env` credentials |
 
 ## Troubleshooting
 
