@@ -8,6 +8,8 @@ Automated tests for the demonstrating Unity Game Testing with [AltTester](https:
 
 > This repo draws inspiration from the [AltTester TestMu AI Python Example)](https://github.com/alttester/EXAMPLES-CSharp-Cloud-Services-AltTrashCat/tree/testmu-ai-python-example) repository, with minimal changes made for clarity purposes.
 
+For more informaration, check out my detailed blog on [Automated Unity Game Testing with AltTester and TestMu AI (Formerly LambdaTest](https://www.testmuai.com/blog/automated-unity-game-testing/)
+
 ## Overview
 
 This project demonstrates how to use **AltTester** to automate a Unity-based mobile game on **real Android/iOS devices** in the cloud. It combines:
